@@ -1,4 +1,4 @@
-﻿{
+{
   "collection": "@nestjs/schematics",
   "monorepo": true,
   "sourceRoot": "apps/api/src",
@@ -18,4 +18,3 @@
     }
   }
 }
-

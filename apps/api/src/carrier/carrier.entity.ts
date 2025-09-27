@@ -22,7 +22,7 @@ export class Carrier {
   @Column({ type: 'boolean', default: true })
   active!: boolean;
 
-  @Column({ type: 'jsonb', nullable: true })
+  @Column({ type: 'json', nullable: true })
   capabilities?: Record<string, unknown> | null;
 
   @CreateDateColumn({ name: 'created_at' })

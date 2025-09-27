@@ -22,18 +22,23 @@ import { HealthModule } from './health/health.module';
     }),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        type: 'postgres',
-        host: configService.getOrThrow<string>('database.host'),
-        port: configService.getOrThrow<number>('database.port'),
-        username: configService.getOrThrow<string>('database.username'),
-        password: configService.getOrThrow<string>('database.password'),
-        database: configService.getOrThrow<string>('database.name'),
-        synchronize: false,
-        autoLoadEntities: true,
-        logging: configService.get<boolean>('database.logging') ?? false,
-        ssl: configService.get<boolean>('database.ssl') ?? false,
-      }),
+      useFactory: (configService: ConfigService) => {
+        const useSsl = configService.get<boolean>('database.ssl');
+
+        return {
+          type: 'mysql' as const,
+          host: configService.getOrThrow<string>('database.host'),
+          port: configService.getOrThrow<number>('database.port'),
+          username: configService.getOrThrow<string>('database.username'),
+          password: configService.getOrThrow<string>('database.password'),
+          database: configService.getOrThrow<string>('database.name'),
+          synchronize: false,
+          autoLoadEntities: true,
+          logging: configService.get<boolean>('database.logging') ?? false,
+          charset: 'utf8mb4_unicode_ci',
+          ssl: useSsl ? { rejectUnauthorized: false } : undefined,
+        };
+      },
     }),
     TerminusModule,
     CarrierModule,

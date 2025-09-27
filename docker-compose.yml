@@ -1,18 +1,20 @@
 ﻿version: "3.9"
 
 services:
-  postgres:
-    image: postgres:16-alpine
-    container_name: logistics_postgres
+  mysql:
+    image: mysql:8.4
+    container_name: logistics_mysql
     restart: unless-stopped
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: logistics
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: logistics
+      MYSQL_USER: logistics
+      MYSQL_PASSWORD: logistics
     ports:
-      - '5432:5432'
+      - '3306:3306'
+    command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci"]
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - mysql_data:/var/lib/mysql
 
   adminer:
     image: adminer:4
@@ -21,9 +23,9 @@ services:
     ports:
       - '8080:8080'
     environment:
-      ADMINER_DEFAULT_SERVER: postgres
+      ADMINER_DEFAULT_SERVER: mysql
     depends_on:
-      - postgres
+      - mysql
 
 volumes:
-  postgres_data:
+  mysql_data:

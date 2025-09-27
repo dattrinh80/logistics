@@ -1,6 +1,6 @@
-# 📦 Logistics Management – Kế hoạch triển khai
+﻿# 📦 Logistics Management – Kế hoạch triển khai
 
-Dự án xây dựng hệ thống quản lý giao vận theo kiến trúc **Modular Monolith + Hexagonal (NestJS + TypeORM + Postgres)**.  
+Dự án xây dựng hệ thống quản lý giao vận theo kiến trúc **Modular Monolith + Hexagonal (NestJS + TypeORM + MySQL)**.  
 Các bước triển khai được chia nhỏ thành nhiều **Sprint** để đảm bảo phát triển tuần tự, có thể test và mở rộng dần.
 
 ---
@@ -12,7 +12,7 @@ Các bước triển khai được chia nhỏ thành nhiều **Sprint** để đ
 - Thiết lập module cơ bản: `carrier`, `customer`.
 - Thực hiện CRUD Carrier + **active/inactive**.
 - Cấu hình ban đầu:
-  - `docker-compose` cho Postgres + Adminer.
+  - `docker-compose` cho MySQL + Adminer.
   - OpenTelemetry (tracing cơ bản).
   - Health checks (`/health`).
   - Config by env (`.env`).
@@ -58,7 +58,7 @@ Các bước triển khai được chia nhỏ thành nhiều **Sprint** để đ
 
 ## 🛠️ Tech Stack
 - **Backend**: NestJS (TypeScript).
-- **DB**: Postgres (TypeORM).
+- **DB**: MySQL (TypeORM).
 - **Message Broker**: RabbitMQ/Kafka (cho event async).
 - **Observability**: OpenTelemetry.
 - **Testing**: Jest.
