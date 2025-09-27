@@ -1,0 +1,46 @@
+﻿import { Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { TerminusModule } from '@nestjs/terminus';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import appConfig from './config/app.config';
+import databaseConfig from './config/database.config';
+import validationSchema from './config/validation.schema';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { CarrierModule } from './carrier/carrier.module';
+import { CustomerModule } from './customer/customer.module';
+import { HealthModule } from './health/health.module';
+
+@Module({
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [appConfig, databaseConfig],
+      envFilePath: ['.env', '.env.local'],
+      validationSchema,
+      expandVariables: true,
+    }),
+    TypeOrmModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        type: 'postgres',
+        host: configService.getOrThrow<string>('database.host'),
+        port: configService.getOrThrow<number>('database.port'),
+        username: configService.getOrThrow<string>('database.username'),
+        password: configService.getOrThrow<string>('database.password'),
+        database: configService.getOrThrow<string>('database.name'),
+        synchronize: false,
+        autoLoadEntities: true,
+        logging: configService.get<boolean>('database.logging') ?? false,
+        ssl: configService.get<boolean>('database.ssl') ?? false,
+      }),
+    }),
+    TerminusModule,
+    CarrierModule,
+    CustomerModule,
+    HealthModule,
+  ],
+  controllers: [AppController],
+  providers: [AppService],
+})
+export class AppModule {}
