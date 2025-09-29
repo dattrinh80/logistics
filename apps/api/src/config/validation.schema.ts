@@ -11,6 +11,7 @@ const validationSchema = Joi.object({
   DB_NAME: Joi.string().default('logistics'),
   DB_LOGGING: Joi.string().valid('true', 'false').default('false'),
   DB_SSL: Joi.string().valid('true', 'false').default('false'),
+  LOG_LEVEL: Joi.string().default('info'),
 });
 
 export default validationSchema;

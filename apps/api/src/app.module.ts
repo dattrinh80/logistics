@@ -1,7 +1,9 @@
-﻿import { Module } from '@nestjs/common';
+﻿import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TerminusModule } from '@nestjs/terminus';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ObservabilityModule } from './observability/observability.module';
+import { RequestContextMiddleware } from './observability/request-context.middleware';
 import appConfig from './config/app.config';
 import databaseConfig from './config/database.config';
 import validationSchema from './config/validation.schema';
@@ -20,6 +22,7 @@ import { HealthModule } from './health/health.module';
       validationSchema,
       expandVariables: true,
     }),
+    ObservabilityModule,
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
@@ -48,4 +51,8 @@ import { HealthModule } from './health/health.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer): void {
+    consumer.apply(RequestContextMiddleware).forRoutes('*');
+  }
+}
