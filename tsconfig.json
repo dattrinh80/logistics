@@ -1,4 +1,4 @@
-﻿{
+{
   "compilerOptions": {
     "module": "commonjs",
     "declaration": true,
@@ -20,9 +20,11 @@
     "resolveJsonModule": true,
     "paths": {
       "@app/*": ["apps/api/src/*"],
+      "@modules/*": ["apps/api/src/modules/*"],
+      "@infrastructure/*": ["apps/api/src/infrastructure/*"],
+      "@shared/*": ["apps/api/src/shared/*"],
       "@libs/*": ["libs/*"]
     }
   },
   "exclude": ["node_modules", "dist"]
 }
-

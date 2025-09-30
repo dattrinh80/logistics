@@ -1,8 +1,8 @@
-﻿import { Logger, ValidationPipe } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { json, urlencoded } from 'express';
 import helmet from 'helmet';
-import { initializeTelemetry } from './observability/telemetry';
+import { initializeTelemetry } from './infrastructure/observability/telemetry';
 import { AppModule } from './app.module';
 
 async function bootstrap(): Promise<void> {

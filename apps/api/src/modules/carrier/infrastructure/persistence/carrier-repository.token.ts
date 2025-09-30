@@ -1,0 +1,1 @@
+﻿export const CARRIER_REPOSITORY = Symbol('CARRIER_REPOSITORY');
